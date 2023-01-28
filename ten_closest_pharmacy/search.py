@@ -48,14 +48,20 @@ map_params['pt'] = [f"{map_params['ll']},pmrdm99"]
 map_params.pop('ll')
 map_params.pop('spn')
 for i in range(10):
-    coord = json_response_pharmacy["features"][i]['geometry']["coordinates"]
-    hours = json_response_pharmacy["features"][i]["properties"]["CompanyMetaData"]["Hours"]['Availabilities'][0]
-    color = 'gr'
-    if hours.get("TwentyFourHours"):  # Именно круглосуточные, то есть работа в 24 часа в сутки
-        color = 'gn'
-    elif len(hours.keys()):
-        color = 'bl'
-    map_params['pt'] += [f'{",".join(map(str, coord))},pm{color}m{1 + i}']
+    try:
+        coord = json_response_pharmacy["features"][i]['geometry']["coordinates"]
+        color = 'gr'
+        try:
+            hours = json_response_pharmacy["features"][i]["properties"]["CompanyMetaData"]["Hours"]['Availabilities'][0]
+            if hours.get("TwentyFourHours"):  # Именно круглосуточные, то есть работа в 24 часа в сутки
+                color = 'gn'
+            elif len(hours.keys()):
+                color = 'bl'
+        except Exception:
+            color = 'gr'
+        map_params['pt'] += [f'{",".join(map(str, coord))},pm{color}m{1 + i}']
+    except Exception:
+        break
 
 map_params['pt'] = '~'.join(map_params['pt'])
 
