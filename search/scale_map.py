@@ -9,7 +9,7 @@ def scale_map(toponym_object):
 
     delta_x = abs(float(upper_corner[0]) - float(lower_corner[0]))
     delta_y = abs(float(upper_corner[1]) - float(lower_corner[1]))
-    print(toponym_object)
+
     # Собираем параметры для запроса к StaticMapsAPI:
     map_params = {
         "ll": ",".join([toponym_longitude, toponym_lattitude]),
