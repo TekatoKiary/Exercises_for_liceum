@@ -1,6 +1,19 @@
+import random
+
 from flask import Flask, url_for, request
 
 app = Flask(__name__)
+
+PLANETS = {
+    'Марс': 'Эта планета близка к Земле;\nНа ней много необходимых ресурсов;\nНа ней есть вода и атмосфера;\n'
+            'На ней есть небольшое магнитное поле;\nНаконец, она просто красива!',
+    'Титан': 'Спутник Сатурна;\nАтмосфера преимущественно состоит из азота;\nНизкая температура(-170;-180);\n'
+             'Давление у поверхности примерно в 1,5 раза превышает давление земной атмосферы;\n'
+             'Возможно существование простейших форм жизни',
+    'Луна': 'Спутник Земли;\nМы уже бывали там;\nНет воды и атмосферыж\nОтличное место для создания космической базы'
+}
+
+ALERTS = ['primary', 'dismissible', 'heading', 'link', 'success', 'secondary', 'danger', 'dark']
 
 
 @app.route('/')
@@ -87,7 +100,7 @@ def astronaut_selection():
                             crossorigin="anonymous">
                             <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}"
                             />
-                            <title>Отбор астронавтов</title>
+                            <title>Пример формы</title>
                           </head>
                           <body>
                             <h1>Анкета претендента на участие в миссии</h1>
@@ -181,6 +194,31 @@ def create_professions():
                                     {russian_professions[i].capitalize()}</label>
                                     </div>''')
     return '\n'.join(text_list)
+
+
+@app.route('/choice/<username>')
+def choice(username):
+    text = ''
+    for i in PLANETS[username].split('\n'):
+        level = random.randint(0, 7)
+        text += f'<h{level} class="alert alert-{random.choice(ALERTS)}" role="alert">' + i + f'</h{level}>\n'
+
+    return f'''<!doctype html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                   <link rel="stylesheet"
+                   href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                   integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                   crossorigin="anonymous">
+                    <title>Варианты выбора</title>
+                  </head>
+                  <body>
+                    <h1>Мое предложение: {username}</h1>
+                    {text}
+                  </body>
+                </html>'''
 
 
 if __name__ == '__main__':
