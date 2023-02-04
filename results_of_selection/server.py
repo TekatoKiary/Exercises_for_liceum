@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, redirect
 
 app = Flask(__name__)
 
@@ -183,8 +183,8 @@ def astronaut_selection():
             rating += 2
         else:
             rating += 3
-        app.redirect('http://localhost:8080/results/<nickname>/<level>/<rating>')
-        return results(name, random.randint(1, 3), rating / 6 * 100)
+        return redirect(f'/results/{name}/{random.randint(1, 3)}/{rating / 6 * 100}')
+        # return results(name, random.randint(1, 3), rating / 6 * 100)
 
 
 def create_professions():
@@ -249,7 +249,7 @@ def results(nickname='null', level=1, rating=50.0):
                         <h1>Результаты отбора</h1>
                         <h3>Претендента на участие в миссии {nickname}</h3>
                         {f'<h3 class="alert alert-success" role="alert">Поздравляем! '
-                         f'Ваш рейтинг после {level} этапа отбора' if rating > 25 else
+                         f'Ваш рейтинг после {level} этапа отбора' if float(rating) > 25 else
     f'<h3 class="alert alert-danger" role="alert">К сожалению, Вы не прошли отбор, ваш рейтинг'}</h3>
                         <h3>составляет {rating}!</h3>
                         <h3 class="alert alert-warning" role="alert">Желаем удачи!</h3>
