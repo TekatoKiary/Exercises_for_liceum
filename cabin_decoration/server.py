@@ -93,12 +93,12 @@ def distribution():
 @app.route('/table/<sex>/<age>')
 def cabin_decoration(sex, age):
     age = int(age)
-    image = url_for('static', filename='img/Martian-adult.jpg') if age > 21 else \
+    image = url_for('static', filename='img/Martian-adult.jpg') if age >= 21 else \
         url_for('static', filename='img/Martian-child.jpg')
     if sex == 'male':
-        color = COLORS['blue'] if age > 21 else COLORS['lightblue']
+        color = COLORS['blue'] if age >= 21 else COLORS['lightblue']
     else:
-        color = COLORS['purple'] if age > 21 else COLORS['pink']
+        color = COLORS['purple'] if age >= 21 else COLORS['pink']
     return render_template('cabin_decoration.html', image=image, color=color)
 
 
