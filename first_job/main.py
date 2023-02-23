@@ -20,7 +20,7 @@ def main():
     add_user(db_sess, 'Sara', 'Schmidt', 27, 'chief', 'design engineer', 'module_1', 'SaraConor@mars.org', 'I’llBeBack')
     add_user(db_sess, 'Jack', 'Parrot', 15, 'assistant', 'researcher', 'module_1', 'JackSparrow@mars.org', 'Savvy')
 
-    add_jobs(db_sess, 1, 'deployment of residential modules 1 and 2', 15, '2, 3', datetime.date.today(), '', False)
+    add_jobs(db_sess, 1, 'deployment of residential modules 1 and 2', 15, '2, 3', datetime.date.today(), False)
 
     db_sess.commit()
 
@@ -32,8 +32,8 @@ def add_user(db_sess, surname, name, age, position, speciality, address, email, 
     db_sess.add(user)
 
 
-def add_jobs(db_sess, team_leader, job, work_size, collaborators, start_date, end_date, is_finished):
-    job = Jobs(team_leader, job, work_size, collaborators, start_date, end_date, is_finished)
+def add_jobs(db_sess, team_leader, job, work_size, collaborators, start_date, is_finished):
+    job = Jobs(team_leader, job, work_size, collaborators, start_date, is_finished)
     db_sess.add(job)
 
 

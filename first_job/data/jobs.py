@@ -1,3 +1,5 @@
+import datetime
+
 import sqlalchemy
 from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
@@ -17,13 +19,11 @@ class Jobs(SqlAlchemyBase):
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
     user = orm.relationship('User')
 
-    def __init__(self, team_leader, job, work_size, collaborators, start_date, end_date, is_finished):
+    def __init__(self, team_leader, job, work_size, collaborators, start_date, is_finished):
         self.team_leader = team_leader
         self.job = job
         self.work_size = work_size
         self.collaborators = collaborators
-        if start_date:
-            self.start_date = start_date
-        if end_date:
-            self.end_date = end_date
+        self.start_date = start_date
+        self.end_date = start_date + datetime.timedelta(hours=work_size)
         self.is_finished = is_finished
